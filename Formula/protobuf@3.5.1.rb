@@ -13,9 +13,11 @@ class Protobuf < Formula
 
   # this will double the build time approximately if enabled
   option "with-test", "Run build-time check"
-  option "without-python", "Build without python support"
+  option "without-python@2", "Build without python2 support"
 
   deprecated_option "with-check" => "with-test"
+  deprecated_option "without-python" => "with-python@2"
+  deprecated_option "with-python3" => "with-python"
 
   depends_on "autoconf" => :build
   depends_on "automake" => :build
@@ -93,7 +95,7 @@ class Protobuf < Formula
     EOS
     (testpath/"test.proto").write testdata
     system bin/"protoc", "test.proto", "--cpp_out=."
-    system "python", "-c", "import google.protobuf" if build.with? "python"
-    system "python3", "-c", "import google.protobuf" if build.with? "python3"
+    system "python2.7", "-c", "import google.protobuf" if build.with? "python@2"
+    system "python3", "-c", "import google.protobuf" if build.with? "python"
   end
 end
